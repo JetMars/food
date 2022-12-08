@@ -419,9 +419,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const result = document.querySelector('.calculating__result span');
 
-  let ratio = "1.375",
-    sex = 'female',
-    height, weight, age;
+  let sex, ratio, height, weight, age;
+
+  if (!localStorage.getItem('sex')) {
+    sex = 'female';
+    localStorage.setItem('sex', sex);
+  } else {
+    sex = localStorage.getItem('sex');
+  }
+
+  if (!localStorage.getItem('ratio')) {
+    ratio = '1.375';
+    localStorage.setItem('ratio', ratio);
+  } else {
+    ratio = localStorage.getItem('ratio');
+  }
+
+  function initLocalSettings(selector, active) {
+
+    const elements = document.querySelectorAll(selector);
+
+    elements.forEach(elem => {
+      elem.classList.remove(active);
+
+      if (elem.getAttribute('data-sex') === localStorage.getItem('sex')) {
+        elem.classList.add(active);
+      }
+
+      if (elem.getAttribute('data-ratio') === localStorage.getItem('ratio')) {
+        elem.classList.add(active);
+      }
+    });
+  }
+
+  initLocalSettings('#gender div', 'calculating__choose-item_active');
+  initLocalSettings('.calculating__choose_big div', 'calculating__choose-item_active');
 
   function calcResultInformation() {
     if (!ratio || !sex || !height || !weight || !age) {
@@ -450,8 +482,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (e.target.hasAttribute('data-sex')) {
           sex = e.target.getAttribute('data-sex');
+          localStorage.setItem('sex', e.target.getAttribute('data-sex'));
         } else {
           ratio = +e.target.getAttribute('data-ratio');
+          localStorage.setItem('ratio', +e.target.getAttribute('data-ratio'));
         }
 
         elements.forEach(elem => elem.classList.remove(active));
@@ -466,6 +500,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.querySelector(`${selector}`);
 
     input.addEventListener('input', () => {
+
+      if (input.value.match(/\D/g)) {
+        input.style.border = '1px solid red';
+        return;
+      } else {
+        input.style.border = '';
+      }
 
       switch (input.getAttribute('id')) {
         case 'height':
