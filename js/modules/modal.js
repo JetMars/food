@@ -49,6 +49,7 @@ function modal(triggerSelector, modalSelector, modalTimerId) {
 
     const winScrollTop = Math.round(window.pageYOffset || document.documentElement.scrollTop);
 
+
     if (winScrollTop + document.documentElement.clientHeight === document.documentElement.offsetHeight) {
       openModal(modalSelector, modalTimerId);
       document.removeEventListener('scroll', showModalBottom);

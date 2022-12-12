@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentCounter: 'current',
     field: '.offer__slider-inner'
   });
-  timer('.timer', '2022-12-10T10:00:00');
+  timer('.timer', '2022-12-15T10:00:00');
   calc();
 
 });
